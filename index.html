@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SattiData — Learn to Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0d14;
+      --surface: #111520;
+      --surface2: #181d2e;
+      --border: rgba(255,255,255,0.08);
+      --accent: #00e5a0;
+      --accent2: #5b8fff;
+      --text: #eef0f6;
+      --muted: #7a8299;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Sora', sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,13,20,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--text); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent);
+      color: #021a10;
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 5rem 2.5rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.4rem;
+    }
+    h1 span { color: var(--accent); }
+    .hero-desc {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #021a10;
+      padding: 11px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.87; }
+
+    /* CODE BLOCK */
+    .hero-visual {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .code-bar {
+      background: var(--surface2);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .code-filename { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 8px; }
+    .code-body { padding: 20px; font-family: var(--mono); font-size: 13px; line-height: 1.75; }
+    .c-kw { color: #c792ea; }
+    .c-fn { color: var(--accent2); }
+    .c-str { color: var(--accent); }
+    .c-cm { color: #546e7a; }
+    .c-num { color: #f78c6c; }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      gap: 2.5rem;
+      padding: 2rem 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* COURSES */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 2.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+    .section-title code {
+      font-family: var(--mono);
+      color: var(--accent2);
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .course-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+    }
+    .course-card:hover {
+      border-color: rgba(255,255,255,0.18);
+      transform: translateY(-2px);
+    }
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .card-py::before { background: linear-gradient(90deg, #3b82f6, #00e5a0); }
+    .card-js::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+    .card-ds::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+    .course-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .course-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .course-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .course-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tag-green { background: rgba(0,229,160,0.1); color: var(--accent); }
+    .tag-amber { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .lessons-count { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo { font-family: var(--mono); font-size: 14px; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">satti<span>data</span></div>
+    <ul class="nav-links">
+      <li><a href="#">Courses</a></li>
+      <li><a href="#">Topics</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Start learning →</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">learn by doing</div>
+      <h1>Code smarter.<br>Think in <span>data.</span></h1>
+      <p class="hero-desc">Practical coding tutorials for curious minds. From Python basics to data science — no fluff, just skills.</p>
+      <a href="#courses" class="btn-primary">Browse courses →</a>
+    </div>
+    <div class="hero-visual">
+      <div class="code-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="code-filename">intro.py</span>
+      </div>
+      <div class="code-body">
+        <div><span class="c-cm"># Welcome to SattiData</span></div>
+        <div><span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd</div>
+        <br>
+        <div><span class="c-kw">def</span> <span class="c-fn">learn</span>(topic):</div>
+        <div>&nbsp;&nbsp;steps = [<span class="c-str">"understand"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"practice"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"build"</span>]</div>
+        <div>&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-fn">dict</span>(topic=topic,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path=steps)</div>
+        <br>
+        <div><span class="c-fn">print</span>(learn(<span class="c-str">"Python"</span>))</div>
+        <div><span class="c-cm"># Let's get started!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div>
+      <div class="stat-num">10<span>+</span></div>
+      <div class="stat-label">free lessons</div>
+    </div>
+    <div>
+      <div class="stat-num">3<span>+</span></div>
+      <div class="stat-label">courses</div>
+    </div>
+    <div>
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">project-based</div>
+    </div>
+  </div>
+
+  <section id="courses">
+    <div class="section-header">
+      <h2 class="section-title"><code>$</code> courses</h2>
+    </div>
+    <div class="courses-grid">
+      <a href="#" class="course-card card-py">
+        <span class="course-tag">PY</span>
+        <div class="course-title">Python Fundamentals</div>
+        <div class="course-desc">Variables, loops, functions and more. Start writing real Python from lesson one.</div>
+        <div class="course-meta">
+          <span class="tag tag-green">Beginner</span>
+          <span class="lessons-count">coming soon</span>
+        </div>
+      </a>
+      <a href="#" class="course-card card-js">
+        <span class="course-tag">DS</span>
+        <div class="course-title">Data Science with Python</div>
+        <div class="course-desc">Pandas, NumPy, and visualization. Turn raw data into real insights.</div>
+        <div class="course-meta">
+          <span class="tag tag-amber">Intermediate</span>
+          <span class="lessons-count">coming soon</span>
+        </div>
+      </a>
+      <a href="#" class="course-card card-ds">
+        <span class="course-tag">SQL</span>
+        <div class="course-title">SQL for Data Analysis</div>
+        <div class="course-desc">Query, filter, join and aggregate. Essential database skills for every data person.</div>
+        <div class="course-meta">
+          <span class="tag tag-green">Beginner</span>
+          <span class="lessons-count">coming soon</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">sattidata.com · © 2026</div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>
